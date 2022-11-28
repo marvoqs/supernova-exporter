@@ -2,10 +2,24 @@
 
 {[ for type in types ]}
 {[ const behavior = getBehavior(type) /]}
-import { {{ behavior.varName }} } from './{{ behavior.fileName }}';
+import { {{ behavior.varName }}, {{ behavior.typeName }}, Custom{{ behavior.typeName }} } from './{{ behavior.fileName }}';
 {[/]}
 
-export const Theme = {
+export interface ThemeType {
+    {[ for type in types ]}
+    {[ const behavior = getBehavior(type) /]}
+    {{ behavior.themeProperty }}: {{ behavior.typeName }},
+    {[/]}
+};
+
+export interface CustomThemeType {
+    {[ for type in types ]}
+    {[ const behavior = getBehavior(type) /]}
+    {{ behavior.themeProperty }}: Custom{{ behavior.typeName }},
+    {[/]}
+};
+
+export const theme = {
     {[ for type in types ]}
     {[ const behavior = getBehavior(type) /]}
     {{ behavior.themeProperty }}: {{ behavior.varName }},

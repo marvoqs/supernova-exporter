@@ -16,18 +16,34 @@ Note: Value is passed as `context` property because it is injected
 }
 
 *}
-{[ inject "reference-wrapper" context buildReferenceMeta("Measure", context) ]}
-{[ let unit = "px" /]}
+{* {[ inject "reference-wrapper" context buildReferenceMeta("Measure", context) ]} *}
 {[ switch context.unit ]}
   {[ case "Points"]}
-  {[ set unit = "pt"/]}
+  {
+    css: "{{ context.measure }}pt",
+    value: {{ context.measure }},
+    origin: "{{ context.measure }}pt",
+    originValue: {{ context.measure }},
+  }{[/]}
   {[ case "Percent"]}
-  {[ set unit = "%"/]}
+  {
+    css: "{{ context.measure }}%",
+    value: {{ context.measure }},
+    origin: "{{ context.measure }}%",
+    originValue: {{ context.measure }},
+  }{[/]}
   {[ case "Ems"]}
-  {[ set unit = "em"/]}
+  {
+    css: "{{ context.measure }}em",
+    value: {{ context.measure }},
+    origin: "{{ context.measure }}em",
+    originValue: {{ context.measure }},
+  }{[/]}
+  {[ case "Pixels"]}
+  {
+    css: "{{getRemFromPx(context.measure) }}rem",
+    value: {{ getRemFromPx(context.measure) }},
+    origin: "{{ context.measure }}px",
+    originValue: {{ context.measure }},
+  }{[/]}
 {[/]}
-{
- measure: {{ context.measure }},
- unit: "{{ context.unit }}",
- css: "{{ context.measure }}{{ unit }}"
-}{[/]}

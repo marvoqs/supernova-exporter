@@ -11,21 +11,22 @@ and their value rendered using `shadow-color` blueprint
 {[ const measureBehavior = getBehavior("measure") /]}
 {[ const behavior = getBehavior(CURRENT_TYPE) /]}
 
-import { {{ colorBehavior.varName }} } from './{{ colorBehavior.fileName }}';
-import { {{ measureBehavior.varName }} } from './{{ measureBehavior.fileName }}';
-
-
 {[ let brand = ds.currentBrand() /]}
-{[ const tokens = ds.tokensByType(CURRENT_TYPE, brand.id) /]}
-{[ for token in tokens ]}
-{[ inject "rendered-token-var" context token /]}    
-{[/]}
+{[ const group = ds.tokenGroupTreeByType(CURRENT_TYPE, brand.id) /]}
 
+import { {{ colorBehavior.varName }} } from './{{ colorBehavior.fileName }}';
+import { {{ measureBehavior.varName }}, {{ measureBehavior.itemTypeName }} } from './{{ measureBehavior.fileName }}';
 
-export const {{ behavior.varName }} = {
-{[ for token in tokens ]}
-  {[ inject "rendered-description" context token /]}
-  {[ inject "rendered-name" context token /]},
-
-{[/]}
+export type {{ behavior.itemTypeName }} = {
+  offsetX: MeasureTokenType;
+  offsetY: MeasureTokenType;
+  radius: MeasureTokenType;
+  spread: MeasureTokenType;
+  color: string;
 }
+
+export type {{ behavior.typeName }} = {[ inject "rendered-group-type" context group /]};
+
+export type Custom{{ behavior.typeName }} = {[ inject "rendered-group-custom-type" context group /]};
+
+export const {{ behavior.varName }}: {{ behavior.typeName }} = {[ inject "rendered-group-content" context group /]};

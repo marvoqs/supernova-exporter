@@ -22,9 +22,9 @@ Note: Token is passed as `context` property because it is injected
 {{ #body }}
 {[ else ]}
 {[ if (context.tokenType === CURRENT_TYPE) ]}
-{[ inject "rendered-name" context context.referencedToken /]}
+{[ inject "rendered-token-name" context context.referencedToken /]}
 {[ else ]}
 {[ const behavior = getBehavior(context.tokenType) /]}
-{{ behavior.varName }}.{[ inject "rendered-name" context context.referencedToken /]}
+{{ behavior.varName }}.{[ inject "rendered-token-name" context context.referencedToken /]}
 {[/]}
 {[/]}

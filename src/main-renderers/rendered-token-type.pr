@@ -19,8 +19,19 @@ Note: Token is passed as `context` property because it is injected
 
 Rendered as:
 
-  [name] = [value];
+  [name]: [value],
 
 *}
 {[ let token = context /]}
-const {[ inject "rendered-name" context token /]} = {[ inject "rendered-value" context token /]};
+
+{{ token.tokenType}}TokenType
+
+{* {[ switch token.tokenType ]}
+{[ case "Color" ]}ColorTokenType
+{[ case "Typography" ]}TypographyTokenType
+{[ case "Shadow" ]}ShadowTokenType
+{[ case "Border" ]}BorderTokenType
+{[ case "Measure" ]}MeasureTokenType
+{[ case "Gradient" ]}GradientTokenType
+{[ case "Radius" ]}RadiusTokenType
+{[/]} *}

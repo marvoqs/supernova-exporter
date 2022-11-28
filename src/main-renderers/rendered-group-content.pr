@@ -1,0 +1,8 @@
+{[ let group = context /]}
+{[ const tokens = ds.tokensByGroupId(group.id) /]}
+{ {[ for token in tokens ]}
+{[ inject "rendered-token-name" context token /]}: {[ inject "rendered-token-value" context token /]},
+{[/]}
+{[ for subgroup in group.subgroups ]}
+{[ inject "rendered-group-name" context subgroup /]}: {[ inject "rendered-group-content" context subgroup /]},
+{[/]} }

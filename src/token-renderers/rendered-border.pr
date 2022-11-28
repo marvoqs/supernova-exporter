@@ -29,6 +29,11 @@ Note: Value is passed as `context` property because it is injected
 
 
 Rendered as:
+  {
+    color: string, // hex
+    width: MeasureTokenType,
+    position: "Inside" | "Center" | "Outside"
+  }
 
 Xpx solid (rendered-color.pr);
 

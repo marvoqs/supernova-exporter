@@ -24,7 +24,5 @@ Rendered as:
 [group1][group2][...][name];
 
 *}
-{[ const tokenGroup = ds.tokenGroupContainingTokenId(context.id) /]}
-{[ const prefix = getBehavior(context.tokenType).prefix /]}
-{[ const tokenName = readableVariableName(context, tokenGroup, prefix) /]}
-{{ tokenName }}
+{[ const groupName = shortVariableName(context) /]}
+{{ groupName }}
