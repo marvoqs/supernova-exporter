@@ -90,6 +90,14 @@ Pulsar.registerFunction("findMobileTypographyToken", function (tokens) {
   return tokens.find((token) => token.name === "Mobile");
 });
 
+Pulsar.registerFunction("findLightColorsGroup", function (groups) {
+  return groups.find((group) => group.name === "Light");
+});
+
+Pulsar.registerFunction("findDarkColorsGroup", function (groups) {
+  return groups.find((group) => group.name === "Dark");
+});
+
 /**
  * Behavior configuration of the exporter
  * Prefixes: Add prefix for each category of the tokens. For example, all colors can start with "color, if needed"

@@ -1,27 +1,53 @@
 {[ const types = ["color","border","gradient","measure","shadow","radius","typography"] /]}
 
-{[ for type in types ]}
-{[ const behavior = getBehavior(type) /]}
-import { {{ behavior.varName }}, {{ behavior.typeName }}, Custom{{ behavior.typeName }} } from './{{ behavior.fileName }}';
-{[/]}
+import { colors, ThemedColorsType, CustomThemedColorsType } from "./colors";
+import { borders, BordersType, CustomBordersType } from "./borders";
+import { gradients, GradientsType, CustomGradientsType } from "./gradients";
+import { measures, MeasuresType, CustomMeasuresType } from "./measures";
+import { shadows, ShadowsType, CustomShadowsType } from "./shadows";
+import { raddii, RadiiType, CustomRadiiType } from "./radii";
+import {
+  typographies,
+  TypographiesType,
+  CustomTypographiesType,
+} from "./typographies";
 
 export interface ThemeType {
-    {[ for type in types ]}
-    {[ const behavior = getBehavior(type) /]}
-    {{ behavior.themeProperty }}: {{ behavior.typeName }},
-    {[/]}
+    colors: ThemedColorsType,
+    borders: BordersType,
+    gradients: GradientsType,
+    measures: MeasuresType,
+    shadows: ShadowsType,
+    radii: RadiiType,
+    typographies: TypographiesType,
 };
 
 export interface CustomThemeType {
-    {[ for type in types ]}
-    {[ const behavior = getBehavior(type) /]}
-    {{ behavior.themeProperty }}: Custom{{ behavior.typeName }},
-    {[/]}
+    colors: CustomThemedColorsType,
+    borders: CustomBordersType,
+    gradients: CustomGradientsType,
+    measures: CustomMeasuresType,
+    shadows: CustomShadowsType,
+    radii: CustomRadiiType,
+    typographies: CustomTypographiesType,
 };
 
-export const theme = {
-    {[ for type in types ]}
-    {[ const behavior = getBehavior(type) /]}
-    {{ behavior.themeProperty }}: {{ behavior.varName }},
-    {[/]}
+export const darkTheme = {
+    colors: colors.dark,
+    borders: borders,
+    gradients: gradients,
+    measures: measures,
+    shadows: shadows,
+    radii: raddii,
+    typographies: typographies,
+};
+
+export const lightTheme = {
+    colors: colors.light,
+    borders: borders,
+    gradients: gradients,
+    measures: measures,
+    shadows: shadows,
+    radii: raddii,
+    typographies: typographies,
 };

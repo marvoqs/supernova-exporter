@@ -14,8 +14,21 @@ and their value rendered using `rendered-color` blueprint
 
 export type {{ behavior.itemTypeName }} = string;
 
-export type {{ behavior.typeName }} = {[ inject "rendered-group-type" context group /]};
+{* // export two sets of colors LightThemeColors and DarkThemeColors *}
+{[ let lightColorGroup = findLightColorsGroup(group.subgroups) /]}
+{[ let darkColorGroup = findDarkColorsGroup(group.subgroups) /]}
 
-export type Custom{{ behavior.typeName }} = {[ inject "rendered-group-custom-type" context group /]};
+export type Themed{{ behavior.typeName }} = {[ inject "rendered-group-type" context lightColorGroup /]};
 
-export const {{ behavior.varName }}: {{ behavior.typeName }} = {[ inject "rendered-group-content" context group /]};
+export type CustomThemed{{ behavior.typeName }} = {[ inject "rendered-group-custom-type" context lightColorGroup /]};
+
+type {{ behavior.typeName }} = {
+  dark: Themed{{ behavior.typeName }},
+  light: Themed{{ behavior.typeName }},
+}
+
+export const {{ behavior.varName }}: ColorsType = {
+  dark: {[ inject "rendered-group-content" context darkColorGroup /]},
+  light: {[ inject "rendered-group-content" context lightColorGroup /]},
+}
+
