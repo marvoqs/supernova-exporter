@@ -1,0 +1,90 @@
+{*
+
+Injectable blueprint that represents Typography token as CSS string. 
+Note that this only converts the value, actual name is provided somewhere else
+
+
+Source data: Shadow Value (https://developers.supernova.io/design-system-data/tokens/typographies)
+Note: Value is passed as `context` property because it is injected
+
+{
+  "id": string
+  "name": string
+  "description": string
+  "tokenType": "Typography"
+  "origin": ItemOrigin | null
+  "value": {
+    "font": {
+      "family": string,
+      "subfamily": string
+      "referencedToken": Font | null
+    },
+    "fontSize": {
+      "unit": "px",
+      "measure": double
+      "referencedToken": Measure | null
+    },
+    "letterSpacing": {
+      "unit": "px",
+      "measure": double
+      "referencedToken": Measure | null
+    },
+    "lineHeight": {
+      "unit": "px",
+      "measure": double
+      "referencedToken": Measure | null
+    },
+    "paragraphIndent": {
+      "unit": "px",
+      "measure": double
+      "referencedToken": Measure | null
+    },
+    "textDecoration": "None" | "Underline" | "Strikethrough"
+    "textCase": "Original" | "Upper" | "Lower" | "Camel"
+    "referencedToken": Typography | null
+  }
+}
+
+
+Rendered as:
+{
+  desktop: {
+    fontFamily: "string",
+    fontStyle: "string",
+    fontWeight: number,
+    fontSize: Measure,
+    lineHeight: Measure,
+    letterSpacing: Measure,
+    textIndent: Measure,
+  },
+  mobile: {
+    fontFamily: "string",
+    fontStyle: "string",
+    fontWeight: number,
+    fontSize: Measure,
+    lineHeight: Measure,
+    letterSpacing: Measure,
+    textIndent: Measure,
+  }
+}
+
+*}
+{[ let group = context /]}
+{[ let tokens = ds.tokensByGroupId(group.id) /]}
+
+{[ if includesReponsiveTokens(tokens) ]}{
+{[ let desktopToken = findDesktopTypographyToken(tokens) /]}
+{[ let mobileToken = findMobileTypographyToken(tokens) /]}
+desktop: {[ inject "rendered-token-value" context desktopToken /]},
+mobile: {[ inject "rendered-token-value" context mobileToken /]},
+}
+{[ else ]}
+{
+{[ for token in tokens ]}
+{[ inject "rendered-token-name" context token /]}: {[ inject "rendered-token-value" context token /]},
+{[/]}
+{[ for subgroup in group.subgroups ]}
+{[ inject "rendered-group-name" context subgroup /]}: {[ inject "rendered-responsive-typography" context subgroup /]},
+{[/]}
+}
+{[/]}

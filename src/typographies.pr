@@ -12,10 +12,10 @@ and their value rendered using `shadow-color` blueprint
 
 {[ let brand = ds.currentBrand() /]}
 {[ const group = ds.tokenGroupTreeByType(CURRENT_TYPE, brand.id) /]}
-
+{[ const tokens = ds.tokensByGroupId(group.id) /]}
 import { {{ measureBehavior.varName }}, {{ measureBehavior.itemTypeName }} } from './{{ measureBehavior.fileName }}';
 
-export type {{ behavior.itemTypeName }} = {
+export type TypographyTokenType = {
   fontFamily: string;
   fontStyle: string;
   fontWeight: number;
@@ -25,8 +25,34 @@ export type {{ behavior.itemTypeName }} = {
   textIndent: MeasureTokenType,
 };
 
-export type {{ behavior.typeName }} = {[ inject "rendered-group-type" context group /]};
+export type TypographyResponsiveTokenType = {
+  desktop: TypographyTokenType;
+  mobile: TypographyTokenType;
+};
 
-export type Custom{{ behavior.typeName }} = {[ inject "rendered-group-custom-type" context group /]};
+export type {{ behavior.typeName }} = {
+{[ for token in tokens ]}
+{[ inject "rendered-token-name" context token /]}: {[ inject "rendered-token-type" context token /]};
+{[/]}
+{[ for subgroup in group.subgroups ]}
+{[ inject "rendered-group-name" context subgroup /]}: TypographyResponsiveTokenType;
+{[/]}
+};
 
-export const {{ behavior.varName }}: {{ behavior.typeName }} = {[ inject "rendered-group-content" context group /]};
+export type Custom{{ behavior.typeName }} = {
+{[ for token in tokens ]}
+{[ inject "rendered-token-name" context token /]}?: {[ inject "rendered-token-type" context token /]};
+{[/]}
+{[ for subgroup in group.subgroups ]}
+{[ inject "rendered-group-name" context subgroup /]}?: TypographyResponsiveTokenType;
+{[/]}
+};
+
+export const {{ behavior.varName }}: {{ behavior.typeName }} = {
+{[ for token in tokens ]}
+{[ inject "rendered-token-name" context token /]}: {[ inject "rendered-token-value" context token /]},
+{[/]}
+{[ for subgroup in group.subgroups ]}
+{[ inject "rendered-group-name" context subgroup /]}: {[ inject "rendered-responsive-typography" context subgroup /]},
+{[/]}
+}

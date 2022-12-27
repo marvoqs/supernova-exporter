@@ -73,6 +73,24 @@ Pulsar.registerFunction("shortVariableName", function (token, prefix) {
 });
 
 /**
+ * Decides whether is group a responsive token or not.
+ */
+Pulsar.registerFunction("includesReponsiveTokens", function (tokens) {
+  return (
+    tokens.some((token) => token.name === "Desktop") &&
+    tokens.some((token) => token.name === "Mobile")
+  );
+});
+
+Pulsar.registerFunction("findDesktopTypographyToken", function (tokens) {
+  return tokens.find((token) => token.name === "Desktop");
+});
+
+Pulsar.registerFunction("findMobileTypographyToken", function (tokens) {
+  return tokens.find((token) => token.name === "Mobile");
+});
+
+/**
  * Behavior configuration of the exporter
  * Prefixes: Add prefix for each category of the tokens. For example, all colors can start with "color, if needed"
  */
