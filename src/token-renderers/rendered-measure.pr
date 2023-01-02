@@ -20,30 +20,22 @@ Note: Value is passed as `context` property because it is injected
 {[ switch context.unit ]}
   {[ case "Points"]}
   {
-    css: "{{ context.measure }}pt",
+    unit: "point",
     value: {{ context.measure }},
-    origin: "{{ context.measure }}pt",
-    originValue: {{ context.measure }},
   }{[/]}
   {[ case "Percent"]}
   {
-    css: "{{ context.measure }}%",
+    unit: "percent",
     value: {{ context.measure }},
-    origin: "{{ context.measure }}%",
-    originValue: {{ context.measure }},
   }{[/]}
   {[ case "Ems"]}
   {
-    css: "{{ context.measure }}em",
+    unit: "em",
     value: {{ context.measure }},
-    origin: "{{ context.measure }}em",
-    originValue: {{ context.measure }},
   }{[/]}
   {[ case "Pixels"]}
   {
-    css: "{{getRemFromPx(context.measure) }}rem",
-    value: {{ getRemFromPx(context.measure) }},
-    origin: "{{ context.measure }}px",
-    originValue: {{ context.measure }},
+    unit: "px",
+    value: {{ context.measure }},
   }{[/]}
 {[/]}

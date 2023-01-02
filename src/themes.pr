@@ -32,7 +32,7 @@ export interface CustomThemeType {
     typographies: CustomTypographiesType,
 };
 
-export const darkTheme = {
+const darkTheme: ThemeType = {
     colors: colors.dark,
     borders: borders,
     gradients: gradients,
@@ -42,7 +42,7 @@ export const darkTheme = {
     typographies: typographies,
 };
 
-export const lightTheme = {
+const lightTheme: ThemeType = {
     colors: colors.light,
     borders: borders,
     gradients: gradients,
@@ -50,4 +50,9 @@ export const lightTheme = {
     shadows: shadows,
     radii: raddii,
     typographies: typographies,
+};
+
+export const themes = {
+  darkTheme,
+  lightTheme,
 };

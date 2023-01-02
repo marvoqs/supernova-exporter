@@ -24,5 +24,5 @@ Rendered as:
 [group1][group2][...][name];
 
 *}
-{[ const groupName = shortVariableName(context) /]}
+{[ const groupName = getVariableName(context.name) /]}
 {{ groupName }}

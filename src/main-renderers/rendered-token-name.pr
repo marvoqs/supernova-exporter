@@ -26,5 +26,5 @@ Rendered as:
 *}
 {[ const tokenGroup = ds.tokenGroupContainingTokenId(context.id) /]}
 {[ const prefix = getBehavior(context.tokenType).prefix /]}
-{[ const tokenName = shortVariableName(context, prefix) /]}
+{[ const tokenName = getVariableName(context.name, prefix) /]}
 {{ tokenName }}

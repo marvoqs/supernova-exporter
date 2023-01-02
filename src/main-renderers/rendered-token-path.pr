@@ -1,0 +1,5 @@
+{[ const token = context /]}
+{[ const tokenGroup = ds.tokenGroupContainingTokenId(token.id) /]}
+{[ const tokenName = getTokenPath(token, tokenGroup) /]}
+  | "{{ getColorVariableName(tokenName) }}"
+  

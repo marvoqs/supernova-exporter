@@ -4,12 +4,13 @@
 
 {[ let brand = ds.currentBrand() /]}
 {[ const group = ds.tokenGroupTreeByType(CURRENT_TYPE, brand.id) /]}
+{[ const tokens = ds.tokensByType(CURRENT_TYPE, brand.id) /]}
+
+export type MeasureTokenUnitType = "em" | "percent" | "point" | "px";
 
 export interface {{ behavior.itemTypeName }} {
-  css: string;
+  unit: MeasureTokenUnitType;
   value: number;
-  origin: string;
-  originValue: number;
 }
 
 export type {{ behavior.typeName }} = {[ inject "rendered-group-type" context group /]};
@@ -17,3 +18,10 @@ export type {{ behavior.typeName }} = {[ inject "rendered-group-type" context gr
 export type Custom{{ behavior.typeName }} = {[ inject "rendered-group-custom-type" context group /]};
 
 export const {{ behavior.varName }}: {{ behavior.typeName }} = {[ inject "rendered-group-content" context group /]};
+
+export type MeasureVariantType = {[ if !tokens.length ]}never;{[/]}
+{[ if !!tokens.length ]}
+{[ for token in tokens ]}
+{[ inject "rendered-token-path" context token /]}
+{[/]}
+{[/]}

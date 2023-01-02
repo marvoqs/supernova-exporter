@@ -2,49 +2,9 @@ Pulsar.registerFunction("getRemFromPx", function (measure) {
   return measure / 16;
 });
 
-/**
- * Convert group name, token name and possible prefix into camelCased string, joining everything together
- */
-Pulsar.registerFunction(
-  "readableVariableName",
-  function (token, tokenGroup, prefix) {
-    // Create array with all path segments and token name at the end
-    const segments = [...tokenGroup.path];
-    if (!tokenGroup.isRoot) {
-      segments.push(tokenGroup.name);
-    }
-    segments.push(token.name);
-
-    if (prefix && prefix.length > 0) {
-      segments.unshift(prefix);
-    }
-
-    // Create "sentence" separated by spaces so we can camelcase it all
-    let sentence = segments.join(" ");
-
-    // Return camelcased string from all segments
-    sentence = sentence
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-
-    // only allow letters, digits, underscore
-    sentence = sentence.replace(/[^a-zA-Z0-9_]/g, "_");
-
-    // prepend underscore if it starts with digit
-    if (/^\d/.test(sentence)) {
-      sentence = "_" + sentence;
-    }
-
-    return sentence;
-  }
-);
-
-/**
- * Convert group name and possible prefix into camelCased string, joining everything together
- */
-Pulsar.registerFunction("shortVariableName", function (token, prefix) {
+function getVariableName(name, prefix) {
   // Separate camelCase into words so we don't lose it
-  const separatedCamelCase = token.name.replace(/([a-z])([A-Z])/g, "$1 $2");
+  const separatedCamelCase = name.replace(/([a-z])([A-Z])/g, "$1 $2");
 
   // Create array with all path segments and token name at the end
   const segments = [separatedCamelCase];
@@ -63,6 +23,69 @@ Pulsar.registerFunction("shortVariableName", function (token, prefix) {
 
   // only allow letters, digits, underscore
   sentence = sentence.replace(/[^a-zA-Z0-9_]/g, "_");
+
+  // prepend underscore if it starts with digit
+  if (/^\d/.test(sentence)) {
+    sentence = "_" + sentence;
+  }
+
+  return sentence;
+}
+
+/**
+ * Convert group name and possible prefix into camelCased string, joining everything together
+ */
+Pulsar.registerFunction("getVariableName", getVariableName);
+
+Pulsar.registerFunction("isLightToken", function (tokenName) {
+  return tokenName.startsWith("light");
+});
+
+Pulsar.registerFunction("isDesktopToken", function (tokenName) {
+  return tokenName.endsWith("desktop");
+});
+
+Pulsar.registerFunction("isMobileToken", function (tokenName) {
+  return tokenName.endsWith("mobile");
+});
+
+Pulsar.registerFunction("getColorVariableName", function (tokenName) {
+  return tokenName.replace(/(^light.)/gi, "");
+});
+
+Pulsar.registerFunction(
+  "getResponsiveTypographyVariableName",
+  function (tokenName) {
+    return tokenName.replace(/(.desktop$)/gi, "");
+  }
+);
+
+/**
+ * Convert group name, token name and possible prefix into camelCased string, joining everything together
+ */
+Pulsar.registerFunction("getTokenPath", function (token, tokenGroup, prefix) {
+  // Create array with all path segments and token name at the end
+  const segments = [
+    ...tokenGroup.path.map((segment) => getVariableName(segment)),
+  ];
+  if (!tokenGroup.isRoot) {
+    segments.push(getVariableName(tokenGroup.name));
+  }
+  segments.push(getVariableName(token.name));
+
+  if (prefix && prefix.length > 0) {
+    segments.unshift(prefix);
+  }
+
+  // Create "sentence" separated by spaces so we can camelcase it all
+  let sentence = segments.join(" ");
+
+  // Return camelcased string from all segments
+  // sentence = sentence.toLowerCase();
+  // .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+
+  // only allow letters, digits, underscore
+  sentence = sentence.replace(/[^a-zA-Z0-9_]/g, ".");
 
   // prepend underscore if it starts with digit
   if (/^\d/.test(sentence)) {
@@ -187,4 +210,20 @@ Pulsar.registerFunction("buildReferenceMeta", function (tokenType, tokenValue) {
     tokenType,
     referencedToken: tokenValue.referencedToken,
   };
+});
+
+Pulsar.registerFunction("getObjectKeys", function (object, previousPath = "") {
+  // Step 1- Go through all the keys of the object
+  Object.keys(object).forEach((key) => {
+    // Get the current path and concat the previous path if necessary
+    const currentPath = previousPath ? `${previousPath}.${key}` : key;
+    // Step 2- If the value is a string, then add it to the keys array
+    if (typeof object[key] !== "object") {
+      objectKeys.push(currentPath);
+    } else {
+      objectKeys.push(currentPath);
+      // Step 3- If the value is an object, then recursively call the function
+      getObjectKeys(object[key], currentPath);
+    }
+  });
 });
