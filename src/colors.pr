@@ -24,12 +24,12 @@ export type Themed{{ behavior.typeName }} = {[ inject "rendered-group-type" cont
 export type CustomThemed{{ behavior.typeName }} = {[ inject "rendered-group-custom-type" context lightColorGroup /]};
 
 type {{ behavior.typeName }} = {
-  dark: Themed{{ behavior.typeName }},
+  {[ if !!darkColorGroup ]}dark: Themed{{ behavior.typeName }},{[/]}
   light: Themed{{ behavior.typeName }},
 }
 
 export const {{ behavior.varName }}: ColorsType = {
-  dark: {[ inject "rendered-group-content" context darkColorGroup /]},
+  {[ if !!darkColorGroup ]}dark: {[ inject "rendered-group-content" context darkColorGroup /]},{[/]}
   light: {[ inject "rendered-group-content" context lightColorGroup /]},
 }
 

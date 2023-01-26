@@ -32,27 +32,40 @@ export interface CustomThemeType {
     typographies: CustomTypographiesType,
 };
 
+
+{[ let brand = ds.currentBrand() /]}
+{[ const group = ds.tokenGroupTreeByType("Color", brand.id) /]}
+{[ let darkColorGroup = findDarkColorsGroup(group.subgroups) /]}
+{[ if !!darkColorGroup ]}
 const darkTheme: ThemeType = {
-    colors: colors.dark,
-    borders: borders,
-    gradients: gradients,
-    measures: measures,
-    shadows: shadows,
-    radii: raddii,
-    typographies: typographies,
+  colors: colors.dark,
+  borders: borders,
+  gradients: gradients,
+  measures: measures,
+  shadows: shadows,
+  radii: raddii,
+  typographies: typographies,
 };
+{[ else ]}
+const darkTheme = undefined;
+{[/]}
 
 const lightTheme: ThemeType = {
-    colors: colors.light,
-    borders: borders,
-    gradients: gradients,
-    measures: measures,
-    shadows: shadows,
-    radii: raddii,
-    typographies: typographies,
+  colors: colors.light,
+  borders: borders,
+  gradients: gradients,
+  measures: measures,
+  shadows: shadows,
+  radii: raddii,
+  typographies: typographies,
 };
 
-export const themes = {
+export interface ThemesType {
+  darkTheme: ThemeType | undefined,
+  lightTheme: ThemeType,
+}
+
+export const themes: ThemesType = {
   darkTheme,
   lightTheme,
 };
